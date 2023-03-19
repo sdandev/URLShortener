@@ -19,11 +19,6 @@ namespace URLShortener.API.Controllers
         private readonly IUrlService _urlService;
         private readonly AppSettings _appSettings;
 
-        //settings prefixes
-        //settings baseurl
-
-       // private const string BaseUrl = "www.lupevents.com/";
-
         public UrlController(IUrlRepository urlRepository, IUrlService urlService, IOptions<AppSettings> appSettings)
         {
             _urlRepository = urlRepository;
