@@ -18,9 +18,13 @@ namespace URLShortener.API.Repositories
             await _urlDbContext.Urls.AddAsync(url);
         }
 
-        public async Task<Url> GetUrlAsync(string longUrl)
+        public async Task<Url> GetUrlByLongUrlAsync(string longUrl)
         {
             return _urlDbContext.Urls.SingleOrDefaultAsync(u => u.LongUrl == longUrl).Result;
+        }
+        public async Task<Url> GetUrlByShortUrlAsync(string shortUrl)
+        {
+            return _urlDbContext.Urls.SingleOrDefaultAsync(u => u.ShortUrl == shortUrl).Result;
         }
 
         public async Task<bool> SaveChangesAsync()

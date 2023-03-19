@@ -47,7 +47,7 @@ namespace URLShortener.API.Controllers
             }
 
             // Check if the long URL already exists in the database
-            var existingUrl = await _urlRepository.GetUrlAsync(_appSettings.BaseUrl + longUrl);
+            var existingUrl = await _urlRepository.GetUrlByLongUrlAsync(_appSettings.BaseUrl + longUrl);
             if (existingUrl != null)
             {
                 // Return the existing short URL in the response body
@@ -63,6 +63,21 @@ namespace URLShortener.API.Controllers
             // Return the shortened URL in the response body
             var newResponse = new { short_url = _appSettings.BaseUrl + shortUrl };
             return Ok(newResponse);
+        }
+
+        [HttpGet("{shortUrl}")]
+        public async Task<IActionResult> RedirectResult(string shortUrl)
+        {
+            string decodedUrl = System.Net.WebUtility.UrlDecode(shortUrl);
+
+            // Retrieve the URL from the database using the short URL as the key
+            var url = await _urlRepository.GetUrlByShortUrlAsync(decodedUrl);
+            if (url != null)
+                // Redirect to the original URL
+                return Redirect(url.LongUrl);
+
+            // If the short URL is not found in the database, return a 404 error
+            return NotFound();
         }
 
     }
