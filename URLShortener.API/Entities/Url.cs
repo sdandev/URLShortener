@@ -10,5 +10,6 @@ namespace URLShortener.API.Entities
         public int Id { get; set; }
         public string ShortUrl { get; set; }
         public string LongUrl { get; set; }
+        public int Hits { get; set; }
     }
 }

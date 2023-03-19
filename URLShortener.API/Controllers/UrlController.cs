@@ -73,8 +73,14 @@ namespace URLShortener.API.Controllers
             // Retrieve the URL from the database using the short URL as the key
             var url = await _urlRepository.GetUrlByShortUrlAsync(decodedUrl);
             if (url != null)
+            {
+                // Increment the hit count for the URL
+                url.Hits++;
+                await _urlRepository.SaveChangesAsync();
+
                 // Redirect to the original URL
                 return Redirect(url.LongUrl);
+            }
 
             // If the short URL is not found in the database, return a 404 error
             return NotFound();
